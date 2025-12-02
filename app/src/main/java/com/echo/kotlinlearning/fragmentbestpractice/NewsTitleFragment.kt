@@ -52,7 +52,8 @@ class NewsTitleFragment: Fragment() {
 //                    val fragment = supportFragmentManager.findFragmentById(R.id.news_content_fragment) as NewsContentFragment
 //                    fragment.refresh(title, content)
                     val fragment = parentFragmentManager.findFragmentById(R.id.news_content_fragment) as NewsContentFragment
-                    fragment.refresh(news.title, news.content)
+                    val contentFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.newsContentFrag) as? NewsContentFragment
+                    contentFragment?.refresh(news.title, news.content)
                 } else {
                     // 如果是单页模式，则直接启动NewsContentActivity
                     NewsContentActivity.actionStart(parent.context, news.title,
