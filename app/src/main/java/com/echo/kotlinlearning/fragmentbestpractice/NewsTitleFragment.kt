@@ -1,5 +1,6 @@
 package com.echo.kotlinlearning.fragmentbestpractice
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,7 @@ class NewsTitleFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         isTwoPane = activity?.findViewById<View>(R.id.newsContentLayout) != null
         val layoutManager = LinearLayoutManager(activity)
-        val newsTitleRecyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView)
+        val newsTitleRecyclerView = view?.findViewById<RecyclerView>(R.id.newsTitleRecyclerView)
         newsTitleRecyclerView?.layoutManager = layoutManager
         val adapter = NewsAdapter(getNews())
         newsTitleRecyclerView?.adapter = adapter
@@ -67,11 +68,12 @@ class NewsTitleFragment: Fragment() {
         override fun getItemCount() = newsList.size
     }
 
+
     private fun getNews(): List<News> {
         val newsList = ArrayList<News>()
         for (i in 1..50) {
             val news = News("This is news title $i", getRandomLengthString("This is news content $i. "))
-                    newsList.add(news)
+            newsList.add(news)
         }
         return newsList
     }
