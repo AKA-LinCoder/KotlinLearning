@@ -23,15 +23,27 @@ class NewsTitleFragment: Fragment() {
         return inflater.inflate(R.layout.news_title_frag,container,false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        isTwoPane = activity?.findViewById<View>(R.id.newsContentLayout) != null
-        val layoutManager = LinearLayoutManager(activity)
-        val newsTitleRecyclerView = view?.findViewById<RecyclerView>(R.id.newsTitleRecyclerView)
-        newsTitleRecyclerView?.layoutManager = layoutManager
-        val adapter = NewsAdapter(getNews())
-        newsTitleRecyclerView?.adapter = adapter
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        isTwoPane = activity?.findViewById<View>(R.id.newsContentLayout) != null
+//        val layoutManager = LinearLayoutManager(activity)
+//        val newsTitleRecyclerView = view?.findViewById<RecyclerView>(R.id.newsTitleRecyclerView)
+//        newsTitleRecyclerView?.layoutManager = layoutManager
+//        val adapter = NewsAdapter(getNews())
+//        newsTitleRecyclerView?.adapter = adapter
+//
+//    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.postDelayed({
+            isTwoPane = requireActivity().findViewById<View>(R.id.newsContentLayout) != null
+            val layoutManager = LinearLayoutManager(requireContext())
+            val newsTitleRecyclerView = view.findViewById<RecyclerView>(R.id.newsTitleRecyclerView)
+            newsTitleRecyclerView.layoutManager = layoutManager
+            val adapter = NewsAdapter(getNews())
+            newsTitleRecyclerView.adapter = adapter
+        }, 100)
     }
 
     inner class NewsAdapter(val newsList: List<News>) :
@@ -51,7 +63,7 @@ class NewsTitleFragment: Fragment() {
 //                    val r = view.findViewById<>()
 //                    val fragment = supportFragmentManager.findFragmentById(R.id.news_content_fragment) as NewsContentFragment
 //                    fragment.refresh(title, content)
-                    val fragment = parentFragmentManager.findFragmentById(R.id.news_content_fragment) as NewsContentFragment
+//                    val fragment = parentFragmentManager.findFragmentById(R.id.news_content_fragment) as NewsContentFragment
                     val contentFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.newsContentFrag) as? NewsContentFragment
                     contentFragment?.refresh(news.title, news.content)
                 } else {
