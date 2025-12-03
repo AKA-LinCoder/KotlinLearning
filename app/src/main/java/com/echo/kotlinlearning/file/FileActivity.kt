@@ -1,6 +1,7 @@
 package com.echo.kotlinlearning.file
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,6 +24,17 @@ class FileActivity : AppCompatActivity() {
         if(inputText.isNotEmpty()){
             binding.editText.setText(inputText)
             binding.editText.setSelection(inputText.length)
+        }
+        binding.save.setOnClickListener {
+            val editor = getSharedPreferences("user",MODE_PRIVATE).edit()
+            editor.putString("name","echo")
+            editor.apply()
+        }
+        binding.read.setOnClickListener {
+            val sh = getSharedPreferences("user",MODE_PRIVATE)
+
+            val name = sh.getString("name","")
+            Toast.makeText(this,name, Toast.LENGTH_SHORT).show()
         }
 
     }

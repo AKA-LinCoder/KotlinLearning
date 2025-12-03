@@ -8,4 +8,15 @@
         android:layout_height="50dp"
         android:id="@+id/editText"
         android:hint="1111"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/save"
+        android:text="save"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/read"
+        android:text="read"/>
+
 </LinearLayout>
