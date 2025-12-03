@@ -57,6 +57,8 @@ open class BaseActivity: AppCompatActivity() {
                 .setCancelable(false)
                 .setPositiveButton("确定") { dialog, which ->
                 ActivityCollector.finishAll() // 销毁所有活动
+                    val i = Intent(context, LoginActivity::class.java)
+                    context.startActivity(i)
                 }.show()
         }
 
