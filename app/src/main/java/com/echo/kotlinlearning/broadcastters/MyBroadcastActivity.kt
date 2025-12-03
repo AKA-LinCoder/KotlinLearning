@@ -16,16 +16,23 @@ class MyBroadcastActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMyBroadcastBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
         binding.broadcastbtn.setOnClickListener {
             val intent = Intent("com.echo.kotlinlearning.broadcastters.MY_BROADCAST")
             //为了将隐式广播变成显示广播
             intent.setPackage(packageName)
+            //发送标准广播
             sendBroadcast(intent)
         }
+        binding.broadcastorderbtn.setOnClickListener {
+
+            val intent = Intent("com.echo.kotlinlearning.broadcastters.MY_BROADCAST")
+            //为了将隐式广播变成显示广播
+            intent.setPackage(packageName)
+            //发送有序广播
+            sendOrderedBroadcast(intent,null)
+        }
+
+
+
     }
 }
