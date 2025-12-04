@@ -1,7 +1,9 @@
 package com.echo.kotlinlearning.file
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -61,15 +63,16 @@ class FileActivity : AppCompatActivity() {
         binding.readdb.setOnClickListener {
             val db = dbHelper.readableDatabase
             val cursor = db.query("Book",null,null,null,null,null,null)
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToFirst()&&cursor.count>0) {
                 do {
-                    val name = cursor.getString(cursor.getColumnIndex("name"))
-                    val author = cursor.getString(cursor.getColumnIndex("author"))
-                    val pages = cursor.getInt(cursor.getColumnIndex("pages"))
-                    val price = cursor.getDouble(cursor.getColumnIndex("price"))
+                    val name = cursor.getStringSafe("name")
+                    val author = cursor.getStringSafe("author")
+                    val pages = cursor.getIntSafe("pages")
+                    val price = cursor.getDoubleSafe("price")
                     Log.d("echo", "name is $name")
                 } while (cursor.moveToNext())
             }
+            cursor.close()
         }
         binding.updatedata.setOnClickListener {
             val db = dbHelper.writableDatabase
@@ -83,9 +86,67 @@ class FileActivity : AppCompatActivity() {
             val db = dbHelper.writableDatabase
             db.delete("Book","name = ?", arrayOf("mike"))
         }
+        binding.replace.setOnClickListener {
+            val db = dbHelper.writableDatabase
+            db.beginTransaction()
+            try {
+                db.delete("Book",null,null)
+//                if (true){
+//                    throw NullPointerException()
+//                }else{
+//                    val values = ContentValues().apply {
+//                        put("name", "lin")
+//                        put("pages", 433)
+//                        put("price", 23.4)
+//
+//                    }
+//                    db.insert("Book",null,values)
+//                    db.setTransactionSuccessful()
+//                }
+                val values = ContentValues().apply {
+                    put("name","lin")
+                    put("author","siya")
+                    put("pages",432)
+                    put("price",63.3)
+
+                }
+                db.insert("Book",null,values)
+                db.setTransactionSuccessful()
+
+            }catch (e: Exception){
+                e.printStackTrace()
+            } finally {
+                db.endTransaction()
+            }
+        }
 
 
     }
+
+
+
+    fun Cursor.getStringSafe(columnName:String,defaultValue:String = ""):String{
+        val index = getColumnIndex(columnName)
+        return if (index >= 0) getString(index) else defaultValue
+    }
+    fun Cursor.getIntSafe(columnName:String,defaultValue:Int = 0):Int{
+        val index = getColumnIndex(columnName)
+        return if (index >= 0) getInt(index) else defaultValue
+    }
+    fun Cursor.getFloatSafe(columnName:String,defaultValue:Float = 0f):Float{
+            val index = getColumnIndex(columnName)
+            return if (index >= 0) getFloat(index) else defaultValue
+    }
+    fun Cursor.getDoubleSafe(columnName:String,defaultValue:Double = 0.0):Double{
+            val index = getColumnIndex(columnName)
+            return if (index >= 0) getDouble(index) else defaultValue
+    }
+    fun Cursor.getLongSafe(columnName:String,defaultValue:Long = 0L):Long{
+            val index = getColumnIndex(columnName)
+            return if (index >= 0) getLong(index) else defaultValue
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
