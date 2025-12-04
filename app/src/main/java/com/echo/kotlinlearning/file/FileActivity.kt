@@ -1,5 +1,6 @@
 package com.echo.kotlinlearning.file
 
+import android.content.ContentValues
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -36,6 +37,53 @@ class FileActivity : AppCompatActivity() {
             val name = sh.getString("name","")
             Toast.makeText(this,name, Toast.LENGTH_SHORT).show()
         }
+        val dbHelper = DBHelper(this,"book.db",1)
+        binding.createdb.setOnClickListener {
+            dbHelper.writableDatabase
+        }
+        binding.insert.setOnClickListener {
+            val db = dbHelper.writableDatabase
+            val values = ContentValues().apply {
+                put("name","mike")
+                put("author","echo")
+                put("pages",432)
+                put("price",23.3)
+                }
+            db.insert("Book",null,values)
+            val values2 = ContentValues().apply {
+                put("name","tom")
+                put("author","siya")
+                put("pages",432)
+                put("price",63.3)
+            }
+            db.insert("Book",null,values2)
+            }
+        binding.readdb.setOnClickListener {
+            val db = dbHelper.readableDatabase
+            val cursor = db.query("Book",null,null,null,null,null,null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val name = cursor.getString(cursor.getColumnIndex("name"))
+                    val author = cursor.getString(cursor.getColumnIndex("author"))
+                    val pages = cursor.getInt(cursor.getColumnIndex("pages"))
+                    val price = cursor.getDouble(cursor.getColumnIndex("price"))
+                    Log.d("echo", "name is $name")
+                } while (cursor.moveToNext())
+            }
+        }
+        binding.updatedata.setOnClickListener {
+            val db = dbHelper.writableDatabase
+            val values = ContentValues().apply {
+                put("pages", 433)
+                put("price", 23.4)
+            }
+            db.update("Book",values,"name = ?", arrayOf("mike"))
+        }
+        binding.deletedata.setOnClickListener {
+            val db = dbHelper.writableDatabase
+            db.delete("Book","name = ?", arrayOf("mike"))
+        }
+
 
     }
 

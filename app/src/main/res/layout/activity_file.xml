@@ -18,5 +18,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/read"
         android:text="read"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/createdb"
+        android:text="create db"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/insert"
+        android:text="insert"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/readdb"
+        android:text="read"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updatedata"
+        android:text="update"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/deletedata"
+        android:text="delete "/>
 
 </LinearLayout>
