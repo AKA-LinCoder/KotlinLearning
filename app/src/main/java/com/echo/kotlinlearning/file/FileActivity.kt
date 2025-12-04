@@ -7,10 +7,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.echo.kotlinlearning.R
 import com.echo.kotlinlearning.databinding.ActivityFileBinding
+import com.echo.kotlinlearning.extension.getDoubleSafe
+import com.echo.kotlinlearning.extension.getIntSafe
+import com.echo.kotlinlearning.extension.getStringSafe
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
@@ -24,46 +28,51 @@ class FileActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         val inputText = loadFile()
-        if(inputText.isNotEmpty()){
+        if (inputText.isNotEmpty()) {
             binding.editText.setText(inputText)
             binding.editText.setSelection(inputText.length)
         }
         binding.save.setOnClickListener {
-            val editor = getSharedPreferences("user",MODE_PRIVATE).edit()
-            editor.putString("name","echo")
+            val editor = getSharedPreferences("user", MODE_PRIVATE).edit()
+            editor.putString("name", "echo")
             editor.apply()
+
+            getSharedPreferences("mike", MODE_PRIVATE).edit {
+                putString("name", "mike")
+            }
+
         }
         binding.read.setOnClickListener {
-            val sh = getSharedPreferences("user",MODE_PRIVATE)
+            val sh = getSharedPreferences("user", MODE_PRIVATE)
 
-            val name = sh.getString("name","")
-            Toast.makeText(this,name, Toast.LENGTH_SHORT).show()
+            val name = sh.getString("name", "")
+            Toast.makeText(this, name, Toast.LENGTH_SHORT).show()
         }
-        val dbHelper = DBHelper(this,"book.db",1)
+        val dbHelper = DBHelper(this, "book.db", 1)
         binding.createdb.setOnClickListener {
             dbHelper.writableDatabase
         }
         binding.insert.setOnClickListener {
             val db = dbHelper.writableDatabase
             val values = ContentValues().apply {
-                put("name","mike")
-                put("author","echo")
-                put("pages",432)
-                put("price",23.3)
-                }
-            db.insert("Book",null,values)
+                put("name", "mike")
+                put("author", "echo")
+                put("pages", 432)
+                put("price", 23.3)
+            }
+            db.insert("Book", null, values)
             val values2 = ContentValues().apply {
-                put("name","tom")
-                put("author","siya")
-                put("pages",432)
-                put("price",63.3)
+                put("name", "tom")
+                put("author", "siya")
+                put("pages", 432)
+                put("price", 63.3)
             }
-            db.insert("Book",null,values2)
-            }
+            db.insert("Book", null, values2)
+        }
         binding.readdb.setOnClickListener {
             val db = dbHelper.readableDatabase
-            val cursor = db.query("Book",null,null,null,null,null,null)
-            if (cursor.moveToFirst()&&cursor.count>0) {
+            val cursor = db.query("Book", null, null, null, null, null, null)
+            if (cursor.moveToFirst() && cursor.count > 0) {
                 do {
                     val name = cursor.getStringSafe("name")
                     val author = cursor.getStringSafe("author")
@@ -80,17 +89,17 @@ class FileActivity : AppCompatActivity() {
                 put("pages", 433)
                 put("price", 23.4)
             }
-            db.update("Book",values,"name = ?", arrayOf("mike"))
+            db.update("Book", values, "name = ?", arrayOf("mike"))
         }
         binding.deletedata.setOnClickListener {
             val db = dbHelper.writableDatabase
-            db.delete("Book","name = ?", arrayOf("mike"))
+            db.delete("Book", "name = ?", arrayOf("mike"))
         }
         binding.replace.setOnClickListener {
             val db = dbHelper.writableDatabase
             db.beginTransaction()
             try {
-                db.delete("Book",null,null)
+                db.delete("Book", null, null)
 //                if (true){
 //                    throw NullPointerException()
 //                }else{
@@ -104,16 +113,16 @@ class FileActivity : AppCompatActivity() {
 //                    db.setTransactionSuccessful()
 //                }
                 val values = ContentValues().apply {
-                    put("name","lin")
-                    put("author","siya")
-                    put("pages",432)
-                    put("price",63.3)
+                    put("name", "lin")
+                    put("author", "siya")
+                    put("pages", 432)
+                    put("price", 63.3)
 
                 }
-                db.insert("Book",null,values)
+                db.insert("Book", null, values)
                 db.setTransactionSuccessful()
 
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
                 db.endTransaction()
@@ -125,28 +134,6 @@ class FileActivity : AppCompatActivity() {
 
 
 
-    fun Cursor.getStringSafe(columnName:String,defaultValue:String = ""):String{
-        val index = getColumnIndex(columnName)
-        return if (index >= 0) getString(index) else defaultValue
-    }
-    fun Cursor.getIntSafe(columnName:String,defaultValue:Int = 0):Int{
-        val index = getColumnIndex(columnName)
-        return if (index >= 0) getInt(index) else defaultValue
-    }
-    fun Cursor.getFloatSafe(columnName:String,defaultValue:Float = 0f):Float{
-            val index = getColumnIndex(columnName)
-            return if (index >= 0) getFloat(index) else defaultValue
-    }
-    fun Cursor.getDoubleSafe(columnName:String,defaultValue:Double = 0.0):Double{
-            val index = getColumnIndex(columnName)
-            return if (index >= 0) getDouble(index) else defaultValue
-    }
-    fun Cursor.getLongSafe(columnName:String,defaultValue:Long = 0L):Long{
-            val index = getColumnIndex(columnName)
-            return if (index >= 0) getLong(index) else defaultValue
-    }
-
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -155,19 +142,19 @@ class FileActivity : AppCompatActivity() {
     }
 
 
-    fun save(inoutText:String) {
+    fun save(inoutText: String) {
         try {
             val output = openFileOutput("data", MODE_PRIVATE)
             val writer = BufferedWriter(OutputStreamWriter(output))
             writer.use {
                 it.write(inoutText)
             }
-        }catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun loadFile():String{
+    fun loadFile(): String {
         val content = StringBuilder()
         try {
             val inout = openFileInput("data")
@@ -178,7 +165,7 @@ class FileActivity : AppCompatActivity() {
                 }
             }
 
-        }catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return content.toString()
