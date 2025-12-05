@@ -29,6 +29,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.jvm.Throws
+import androidx.core.net.toUri
 
 class NotificationActivity : AppCompatActivity() {
     lateinit var binding: ActivityNotificationBinding
@@ -42,6 +43,8 @@ class NotificationActivity : AppCompatActivity() {
 //
     //相机申请权限code
     private val REQUEST_CAMERA_PERMISIION = 1001
+
+    private val isMp3OrMp4 = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,6 +61,8 @@ class NotificationActivity : AppCompatActivity() {
                 NotificationManager.IMPORTANCE_HIGH
             )
         )
+        val uri = ("android.resource://" + packageName + "/" + R.raw.video).toUri()
+        binding.videoView.setVideoURI(uri)
 
         binding.btnSend.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
@@ -87,19 +92,37 @@ class NotificationActivity : AppCompatActivity() {
             startActivityForResult(intent,1003)
         }
 
-        binding.playmp3.setOnClickListener {
-            if (!mediaPlayer.isPlaying){
-                mediaPlayer.start()
+        if (isMp3OrMp4==0){
+            binding.playmp3.setOnClickListener {
+                if (!mediaPlayer.isPlaying){
+                    mediaPlayer.start()
+                }
             }
-        }
-        binding.pauseymp3.setOnClickListener {
-            if (mediaPlayer.isPlaying){
-                mediaPlayer.pause()
+            binding.pauseymp3.setOnClickListener {
+                if (mediaPlayer.isPlaying){
+                    mediaPlayer.pause()
+                }
             }
-        }
-        binding.stopmp3.setOnClickListener {
-            if (mediaPlayer.isPlaying){
-                mediaPlayer.stop()
+            binding.stopmp3.setOnClickListener {
+                if (mediaPlayer.isPlaying){
+                    mediaPlayer.stop()
+                }
+            }
+        }else if(isMp3OrMp4==1){
+            binding.playmp3.setOnClickListener {
+                if (!binding.videoView.isPlaying){
+                    binding.videoView.start()
+                }
+            }
+            binding.pauseymp3.setOnClickListener {
+                if (binding.videoView.isPlaying){
+                    binding.videoView.pause()
+                }
+            }
+            binding.stopmp3.setOnClickListener {
+                if (binding.videoView.isPlaying){
+                    binding.videoView.resume()
+                }
             }
         }
 
@@ -119,6 +142,7 @@ class NotificationActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.stop()
         mediaPlayer.release()
+        binding.videoView.suspend()
     }
 
     private fun takePhoto(){
