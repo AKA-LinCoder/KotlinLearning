@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,6 +36,7 @@ class NotificationActivity : AppCompatActivity() {
 
 //    //拍照后的图片文件
     private lateinit var photoFile: File
+    private val mediaPlayer = MediaPlayer()
 //    //展示图片的imageview
 //    private lateinit var ivPhoto: ImageView
 //
@@ -45,6 +47,7 @@ class NotificationActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        initMediaPlayer()
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -77,7 +80,45 @@ class NotificationActivity : AppCompatActivity() {
             }
 
         }
+        binding.btnOpenGallery.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent,1003)
+        }
 
+        binding.playmp3.setOnClickListener {
+            if (!mediaPlayer.isPlaying){
+                mediaPlayer.start()
+            }
+        }
+        binding.pauseymp3.setOnClickListener {
+            if (mediaPlayer.isPlaying){
+                mediaPlayer.pause()
+            }
+        }
+        binding.stopmp3.setOnClickListener {
+            if (mediaPlayer.isPlaying){
+                mediaPlayer.stop()
+            }
+        }
+
+
+
+    }
+
+
+    fun initMediaPlayer(){
+        val assetManager = assets
+        val fd = assetManager.openFd("020.mp3")
+        mediaPlayer.setDataSource(fd.fileDescriptor,fd.startOffset,fd.length)
+        mediaPlayer.prepare()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.stop()
+        mediaPlayer.release()
     }
 
     private fun takePhoto(){
@@ -117,8 +158,14 @@ class NotificationActivity : AppCompatActivity() {
         caller: ComponentCaller
     ) {
         super.onActivityResult(requestCode, resultCode, data, caller)
-        if (resultCode == RESULT_OK&&requestCode == 1002){
+        if (resultCode == RESULT_OK&&(requestCode == 1002)){
             binding.ivCamera.setImageURI(Uri.fromFile(photoFile))
+        }
+        if (resultCode == RESULT_OK&&(requestCode == 1003&&data!=null)){
+            data.data?.let {
+                binding.ivCamera.setImageURI(it)
+            }
+//            binding.ivCamera.setImageURI(Uri.fromFile(photoFile))
         }
     }
 

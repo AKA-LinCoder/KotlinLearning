@@ -13,6 +13,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="open camera" />
+    <Button
+        android:id="@+id/btn_open_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="open gallery" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/playmp3"
+        android:text="play mp3" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pauseymp3"
+        android:text="pause mp3" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stopmp3"
+        android:text="stop mp3" />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
