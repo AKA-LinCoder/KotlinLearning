@@ -8,4 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="发送通知" />
+    <Button
+        android:id="@+id/btn_open_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="open camera" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_camera" />
 </LinearLayout>
