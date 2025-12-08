@@ -13,4 +13,10 @@
         android:layout_height="50dp"
         android:text="加载网页"
         android:id="@+id/btn_load"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="解析XML"
+        android:id="@+id/btn_load_xml"/>
+
 </LinearLayout>

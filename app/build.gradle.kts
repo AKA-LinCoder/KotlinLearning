@@ -55,6 +55,11 @@ dependencies {
     // 2. 引入 OkHttp 核心库 + 日志拦截器（无需写版本，由 BOM 统一管理）
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+
+    // 引入Simple XML（libs方式）
+    implementation(libs.simple.xml)
+    // 引入配套的stax-api（解决Android 9+解析异常）
+//    implementation(libs.stax.api)
     // 若配置了 bundles，也可以一键引入：implementation(libs.bundles.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
