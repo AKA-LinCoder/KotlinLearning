@@ -49,6 +49,13 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview) // 可选
+    // 1. 引入 OkHttp BOM（通过 Version Catalog 引用，统一版本）
+    implementation(platform(libs.okhttp.bom))
+
+    // 2. 引入 OkHttp 核心库 + 日志拦截器（无需写版本，由 BOM 统一管理）
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    // 若配置了 bundles，也可以一键引入：implementation(libs.bundles.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
