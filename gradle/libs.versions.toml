@@ -15,6 +15,9 @@ cardview = "1.0.0"
 okhttp-bom = "4.12.0"
 simple-xml = "2.7.1"  # Simple XML稳定版本
 #stax-api = "1.0-2"    # 配套的stax-api版本（必须加，否则解析报错）
+retrofit = "2.9.0"
+lifecycle = "2.7.0" # Lifecycle 最新稳定版（兼容所有Android版本）
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +38,20 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 #simplexml
 simple-xml = { group = "org.simpleframework", name = "simple-xml", version.ref = "simple-xml" }
 #stax-api = { group = "javax.xml.stream", name = "stax-api", version.ref = "stax-api" }
+
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+# Lifecycle 核心模块（lifecycleScope 依赖此模块）
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+# 按需添加其他子模块（根据你的实际需求，非必需）：
+# 1. 若用 ViewModel
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+# 2. 若用 LiveData
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+# 3. 若用 LifecycleService
+androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle" }
 
 
 

@@ -22,7 +22,9 @@ class NetWorkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityNetWorkBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.toolbar)
         setContentView(binding.root)
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.webViewClient = WebViewClient()

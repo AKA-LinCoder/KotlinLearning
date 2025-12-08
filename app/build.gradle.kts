@@ -58,6 +58,11 @@ dependencies {
 
     // 引入Simple XML（libs方式）
     implementation(libs.simple.xml)
+    implementation(libs.retrofit)
+
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+//    implementation(libs.retrofit.gson.converter)
     // 引入配套的stax-api（解决Android 9+解析异常）
 //    implementation(libs.stax.api)
     // 若配置了 bundles，也可以一键引入：implementation(libs.bundles.okhttp)
