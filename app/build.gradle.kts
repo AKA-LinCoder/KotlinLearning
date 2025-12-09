@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -62,6 +63,9 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.room)
+    kapt(libs.room.compiler)
 //    implementation(libs.retrofit.gson.converter)
     // 引入配套的stax-api（解决Android 9+解析异常）
 //    implementation(libs.stax.api)

@@ -17,6 +17,7 @@ simple-xml = "2.7.1"  # Simple XML稳定版本
 #stax-api = "1.0-2"    # 配套的stax-api版本（必须加，否则解析报错）
 retrofit = "2.9.0"
 lifecycle = "2.7.0" # Lifecycle 最新稳定版（兼容所有Android版本）
+room = "2.5.0" # Room最新稳定版（兼容所有Android版本）
 
 
 [libraries]
@@ -53,7 +54,8 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 # 3. 若用 LifecycleService
 androidx-lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle" }
 
-
+room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
